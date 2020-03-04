@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memochou</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="shortcut icon" href="./images/logo.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="./js/main.js"></script>
+  </head>
+  <body class="light-theme">
+    <div class="navbar-fixed">
+      <nav class="nav-light">
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo right brand-logo-light">
+            <div class="valign-wrapper">
+              <span class="center-align">Memochou</span>
+              <img src="./images/logo.png" alt="logo" />
+            </div>
+          </a>
+          <ul class="left">
+            <li>
+              <a
+                class="btn-floating btn-medium waves-effect waves-light"
+                onclick="toggleOptions()"
+              >
+                <i
+                  class="material-icons tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Main Menu"
+                  >menu</i
+                >
+              </a>
+              <a class="btn-floating btn-medium waves-effect waves-light">
+                <i
+                  class="material-icons tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Refresh"
+                  >refresh</i
+                >
+              </a>
+              <a class="btn-floating btn-medium waves-effect waves-light">
+                <i
+                  class="material-icons tooltipped"
+                  data-position="bottom"
+                  data-tooltip="List View"
+                  onclick="if(this.innerText==='view_agenda'){this.innerText='view_module'; this.dataset.tooltip='Grid View'} else {this.innerText='view_agenda';  this.dataset.tooltip='List View'} M.Tooltip.getInstance(this).close()"
+                  >view_agenda</i
+                >
+              </a>
+              <a class="btn-floating btn-medium waves-effect waves-light">
+                <i
+                  class="material-icons tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Enable Dark Mode"
+                  onclick="if(this.innerText==='toggle_off') {this.innerText='toggle_on'; this.dataset.tooltip='Enable Light Mode'} else {this.innerText='toggle_off'; this.dataset.tooltip='Enable Dark Mode'} M.Tooltip.getInstance(this).close()"
+                  >toggle_off</i
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col s12 m4 l3" style="padding: 0" id="options">
+        <div class="search-btn">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">search</i>
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="search"
+              class="autocomplete black-text"
+            />
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="custom-btn c-btn-active">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">lightbulb_outline</i>
+          </div>
+          <div>
+            <h6 class="center-align m0" style="font-weight: bold;">Notes</h6>
+          </div>
+        </div>
+        <div class="custom-btn">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">notifications</i>
+          </div>
+          <div>
+            <h6 class="center-align m0" style="font-weight: bold;">
+              Reminders
+            </h6>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="custom-btn">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">create</i>
+          </div>
+          <div>
+            <h6 class="center-align m0" style="font-weight: bold;">
+              New Category
+            </h6>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="custom-btn">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">archive</i>
+          </div>
+          <div>
+            <h6 class="center-align m0" style="font-weight: bold;">
+              Archive
+            </h6>
+          </div>
+        </div>
+        <div class="custom-btn">
+          <div
+            style="height: 100%; width: 10%; display: flex; margin-left: 10px;"
+          >
+            <i class="material-icons prefix">delete</i>
+          </div>
+          <div>
+            <h6 class="center-align m0" style="font-weight: bold;">
+              Trash
+            </h6>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m4 l3 notes">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div
+                style="width: 100%; display: flex; justify-content: space-between;"
+              >
+                <a class="btn-floating btn-small waves-effect waves-light">
+                  <i
+                    class="material-icons tooltipped"
+                    data-position="bottom"
+                    data-tooltip="Select Note"
+                    >check_circle</i
+                  >
+                </a>
+                <!-- pin dark data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg== -->
+                <a
+                  class="btn-floating btn-small waves-effect waves-light tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Pin Note"
+                  style="background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==);  background-repeat: no-repeat;background-position: center;"
+                >
+                </a>
+              </div>
+              <div class="card-content">
+                <p style="margin-bottom: 12px;">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Culpa sed ad incidunt ipsa in odio fugit dolorem? Aliquid
+                  maxime, repellendus sit aspernatur dignissimos modi, explicabo
+                  numquam vitae, ex consectetur pariatur.
+                </p>
+                <div class="card-action">
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Remind Me"
+                      >notifications_active</i
+                    >
+                  </a>
+                  <a
+                    class="btn-floating btn-small waves-effect waves-light dropdown-trigger"
+                    data-position="top"
+                    data-target="palette1"
+                  >
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Change Color"
+                      >color_lens</i
+                    >
+                  </a>
+                  <ul class="dropdown-content" id="palette1">
+                    <div class="palette">
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light white tooltipped active-color"
+                          style="border: 1px solid gray"
+                          data-position="bottom"
+                          data-tooltip="default"
+                          onclick="changeCardColor.call(this, 'white')"
+                          ><i class="material-icons">check</i></a
+                        >
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Red"
+                          style="background-color: rgb(242, 139, 130);border: 1px solid rgb(242, 139, 130);"
+                          onclick="changeCardColor.call(this, 'rgb(242, 139, 130)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Orange"
+                          style="background-color: rgb(251, 188, 4);border: 1px solid rgb(251, 188, 4);"
+                          onclick="changeCardColor.call(this, 'rgb(251, 188, 4)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Yellow"
+                          style="background-color: rgb(255, 244, 117);border: 1px solid rgb(255, 244, 117);"
+                          onclick="changeCardColor.call(this, 'rgb(255, 244, 117)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Green"
+                          style="background-color: rgb(204, 255, 144);border: 1px solid rgb(204, 255, 144);"
+                          onclick="changeCardColor.call(this, 'rgb(204, 255, 144)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Teal"
+                          style="background-color: rgb(167, 255, 235);border: 1px solid rgb(167, 255, 235);"
+                          onclick="changeCardColor.call(this, 'rgb(167, 255, 235)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Blue"
+                          style="background-color: rgb(203, 240, 248);border: 1px solid rgb(203, 240, 248);"
+                          onclick="changeCardColor.call(this, 'rgb(203, 240, 248)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Dark Blue"
+                          style="background-color: rgb(174, 203, 250);border: 1px solid rgb(174, 203, 250);"
+                          onclick="changeCardColor.call(this, 'rgb(174, 203, 250)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Purple"
+                          style="background-color: rgb(215, 174, 251);border: 1px solid rgb(215, 174, 251);"
+                          onclick="changeCardColor.call(this, 'rgb(215, 174, 251)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Pink"
+                          style="background-color: rgb(253, 207, 232);border: 1px solid rgb(253, 207, 232);"
+                          onclick="changeCardColor.call(this, 'rgb(253, 207, 232)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Brown"
+                          style="background-color: rgb(230, 201, 168);border: 1px solid rgb(230, 201, 168);"
+                          onclick="changeCardColor.call(this, 'rgb(230, 201, 168)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Gray"
+                          style="background-color: rgb(232, 234, 237);border: 1px solid rgb(232, 234, 237);"
+                          onclick="changeCardColor.call(this, 'rgb(232, 234, 237)')"
+                        ></a>
+                      </div>
+                    </div>
+                  </ul>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Add Image"
+                      >image</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Archive"
+                      >archive</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="More"
+                      >more_vert</i
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m4 l3 notes">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div
+                style="width: 100%; display: flex; justify-content: space-between;"
+              >
+                <a class="btn-floating btn-small waves-effect waves-light">
+                  <i
+                    class="material-icons tooltipped"
+                    data-position="bottom"
+                    data-tooltip="Select Note"
+                    >check_circle</i
+                  >
+                </a>
+                <!-- pin dark data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg== -->
+                <a
+                  class="btn-floating btn-small waves-effect waves-light tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Pin Note"
+                  style="background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==);  background-repeat: no-repeat;background-position: center;"
+                >
+                </a>
+              </div>
+              <div class="card-content">
+                <p style="margin-bottom: 12px;">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Culpa sed ad incidunt ipsa in odio fugit dolorem? Aliquid
+                  maxime, repellendus sit aspernatur dignissimos modi, explicabo
+                  numquam vitae, ex consectetur pariatur.
+                </p>
+                <div class="card-action">
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Remind Me"
+                      >notifications_active</i
+                    >
+                  </a>
+                  <a
+                    class="btn-floating btn-small waves-effect waves-light dropdown-trigger"
+                    data-position="top"
+                    data-target="palette2"
+                  >
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Change Color"
+                      >color_lens</i
+                    >
+                  </a>
+                  <ul class="dropdown-content" id="palette2">
+                    <div class="palette">
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light white tooltipped active-color"
+                          style="border: 1px solid gray"
+                          data-position="bottom"
+                          data-tooltip="default"
+                          onclick="changeCardColor.call(this, 'white')"
+                          ><i class="material-icons">check</i></a
+                        >
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Red"
+                          style="background-color: rgb(242, 139, 130);border: 1px solid rgb(242, 139, 130);"
+                          onclick="changeCardColor.call(this, 'rgb(242, 139, 130)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Orange"
+                          style="background-color: rgb(251, 188, 4);border: 1px solid rgb(251, 188, 4);"
+                          onclick="changeCardColor.call(this, 'rgb(251, 188, 4)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Yellow"
+                          style="background-color: rgb(255, 244, 117);border: 1px solid rgb(255, 244, 117);"
+                          onclick="changeCardColor.call(this, 'rgb(255, 244, 117)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Green"
+                          style="background-color: rgb(204, 255, 144);border: 1px solid rgb(204, 255, 144);"
+                          onclick="changeCardColor.call(this, 'rgb(204, 255, 144)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Teal"
+                          style="background-color: rgb(167, 255, 235);border: 1px solid rgb(167, 255, 235);"
+                          onclick="changeCardColor.call(this, 'rgb(167, 255, 235)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Blue"
+                          style="background-color: rgb(203, 240, 248);border: 1px solid rgb(203, 240, 248);"
+                          onclick="changeCardColor.call(this, 'rgb(203, 240, 248)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Dark Blue"
+                          style="background-color: rgb(174, 203, 250);border: 1px solid rgb(174, 203, 250);"
+                          onclick="changeCardColor.call(this, 'rgb(174, 203, 250)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Purple"
+                          style="background-color: rgb(215, 174, 251);border: 1px solid rgb(215, 174, 251);"
+                          onclick="changeCardColor.call(this, 'rgb(215, 174, 251)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Pink"
+                          style="background-color: rgb(253, 207, 232);border: 1px solid rgb(253, 207, 232);"
+                          onclick="changeCardColor.call(this, 'rgb(253, 207, 232)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Brown"
+                          style="background-color: rgb(230, 201, 168);border: 1px solid rgb(230, 201, 168);"
+                          onclick="changeCardColor.call(this, 'rgb(230, 201, 168)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Gray"
+                          style="background-color: rgb(232, 234, 237);border: 1px solid rgb(232, 234, 237);"
+                          onclick="changeCardColor.call(this, 'rgb(232, 234, 237)')"
+                        ></a>
+                      </div>
+                    </div>
+                  </ul>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Add Image"
+                      >image</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Archive"
+                      >archive</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="More"
+                      >more_vert</i
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m4 l3 notes">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div
+                style="width: 100%; display: flex; justify-content: space-between;"
+              >
+                <a class="btn-floating btn-small waves-effect waves-light">
+                  <i
+                    class="material-icons tooltipped"
+                    data-position="bottom"
+                    data-tooltip="Select Note"
+                    >check_circle</i
+                  >
+                </a>
+                <!-- pin dark data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDRhMiAyIDAgMCAwLTItMkg5Yy0xLjEgMC0yIC45LTIgMnY3bC0yIDN2Mmg2djVsMSAxIDEtMXYtNWg2di0ybC0yLTNWNHoiLz4KPC9zdmc+Cg== -->
+                <a
+                  class="btn-floating btn-small waves-effect waves-light tooltipped"
+                  data-position="bottom"
+                  data-tooltip="Pin Note"
+                  style="background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgPHBhdGggZmlsbD0iIzAwMCIgZD0iTTE3IDR2N2wyIDN2MmgtNnY1bC0xIDEtMS0xdi01SDV2LTJsMi0zVjRjMC0xLjEuOS0yIDItMmg2YzEuMTEgMCAyIC44OSAyIDJ6TTkgNHY3Ljc1TDcuNSAxNGg5TDE1IDExLjc1VjRIOXoiLz4KPC9zdmc+Cg==);  background-repeat: no-repeat;background-position: center;"
+                >
+                </a>
+              </div>
+              <div class="card-content">
+                <p style="margin-bottom: 12px;">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Culpa sed ad incidunt ipsa in odio fugit dolorem? Aliquid
+                  maxime, repellendus sit aspernatur dignissimos modi, explicabo
+                  numquam vitae, ex consectetur pariatur.
+                </p>
+                <div class="card-action">
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Remind Me"
+                      >notifications_active</i
+                    >
+                  </a>
+                  <a
+                    class="btn-floating btn-small waves-effect waves-light dropdown-trigger"
+                    data-position="top"
+                    data-target="palette3"
+                  >
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Change Color"
+                      >color_lens</i
+                    >
+                  </a>
+                  <ul class="dropdown-content" id="palette3">
+                    <div class="palette">
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light white tooltipped active-color"
+                          style="border: 1px solid gray"
+                          data-position="bottom"
+                          data-tooltip="default"
+                          onclick="changeCardColor.call(this, 'white')"
+                          ><i class="material-icons">check</i></a
+                        >
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Red"
+                          style="background-color: rgb(242, 139, 130);border: 1px solid rgb(242, 139, 130);"
+                          onclick="changeCardColor.call(this, 'rgb(242, 139, 130)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Orange"
+                          style="background-color: rgb(251, 188, 4);border: 1px solid rgb(251, 188, 4);"
+                          onclick="changeCardColor.call(this, 'rgb(251, 188, 4)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Yellow"
+                          style="background-color: rgb(255, 244, 117);border: 1px solid rgb(255, 244, 117);"
+                          onclick="changeCardColor.call(this, 'rgb(255, 244, 117)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Green"
+                          style="background-color: rgb(204, 255, 144);border: 1px solid rgb(204, 255, 144);"
+                          onclick="changeCardColor.call(this, 'rgb(204, 255, 144)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Teal"
+                          style="background-color: rgb(167, 255, 235);border: 1px solid rgb(167, 255, 235);"
+                          onclick="changeCardColor.call(this, 'rgb(167, 255, 235)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Blue"
+                          style="background-color: rgb(203, 240, 248);border: 1px solid rgb(203, 240, 248);"
+                          onclick="changeCardColor.call(this, 'rgb(203, 240, 248)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Dark Blue"
+                          style="background-color: rgb(174, 203, 250);border: 1px solid rgb(174, 203, 250);"
+                          onclick="changeCardColor.call(this, 'rgb(174, 203, 250)')"
+                        ></a>
+                      </div>
+                      <div class="palette-row">
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Purple"
+                          style="background-color: rgb(215, 174, 251);border: 1px solid rgb(215, 174, 251);"
+                          onclick="changeCardColor.call(this, 'rgb(215, 174, 251)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Pink"
+                          style="background-color: rgb(253, 207, 232);border: 1px solid rgb(253, 207, 232);"
+                          onclick="changeCardColor.call(this, 'rgb(253, 207, 232)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Brown"
+                          style="background-color: rgb(230, 201, 168);border: 1px solid rgb(230, 201, 168);"
+                          onclick="changeCardColor.call(this, 'rgb(230, 201, 168)')"
+                        ></a>
+                        <a
+                          class="btn-floating btn-small waves-effect waves-light tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Gray"
+                          style="background-color: rgb(232, 234, 237);border: 1px solid rgb(232, 234, 237);"
+                          onclick="changeCardColor.call(this, 'rgb(232, 234, 237)')"
+                        ></a>
+                      </div>
+                    </div>
+                  </ul>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Add Image"
+                      >image</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Archive"
+                      >archive</i
+                    >
+                  </a>
+                  <a class="btn-floating btn-small waves-effect waves-light">
+                    <i
+                      class="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="More"
+                      >more_vert</i
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
